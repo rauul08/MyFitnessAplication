@@ -9,6 +9,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.myfitnessaplication.login.FitnessLogin
 import com.example.myfitnessaplication.home.HomeScreen
+import com.example.myfitnessaplication.splash.SplashScreen
 import com.example.myfitnessaplication.ui.theme.MyFitnessAplicationTheme
 
 class MainActivity : ComponentActivity() {
@@ -26,7 +27,8 @@ class MainActivity : ComponentActivity() {
 fun FitnessApp() {
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = "login") {
+    NavHost(navController = navController, startDestination = "splash") {
+        composable("splash") {SplashScreen(navController)}
         composable("login") { FitnessLogin(navController) }
         composable("home") { HomeScreen(navController) } // 🔥 Ahora HomeScreen recibe navController
     }
