@@ -1,6 +1,7 @@
 package com.example.myfitnessaplication.login
 
 import android.util.Log
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,6 +17,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -29,11 +31,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 
@@ -46,20 +51,29 @@ fun FitnessLogin(
 ) {
     val showLoginForm = rememberSaveable { mutableStateOf(true) }
 
-    Surface(modifier = Modifier.fillMaxSize()) {
+    Surface(
+        modifier = Modifier.fillMaxSize(),
+        color = MaterialTheme.colorScheme.background
+        ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
             if (showLoginForm.value) {
-                Text(text = "Inicia Sesión")
+                Text(text = "Inicia Sesión",
+                    fontSize = 25.sp,
+                    color = MaterialTheme.colorScheme.onBackground,
+                    fontWeight = FontWeight.Bold)
                 UserForm(isCreateAccount = false) { email, password, _, _, _, _, _ ->
                     viewModel.singInWithEmailAndPassword(email, password) {
                         navController.navigate("home")
                     }
                 }
             } else {
-                Text(text = "Crea una cuenta")
+                Text(text = "Crea una cuenta",
+                    fontSize = 25.sp,
+                    color = MaterialTheme.colorScheme.onBackground,
+                    fontWeight = FontWeight.Bold)
                 UserForm(isCreateAccount = true) { email, password, fullName, gender, weight, height, goal ->
                     viewModel.createUsersWithEmailAndPassword(
                         email,
@@ -82,13 +96,16 @@ fun FitnessLogin(
             ) {
                 val text1 = if (showLoginForm.value) "¿No tienes cuenta?" else "¿Ya tienes una cuenta?"
                 val text2 = if (showLoginForm.value) "Regístrate" else "Inicia sesión"
-                Text(text = text1)
+                Text(text = text1,
+                    fontSize = 16.sp,
+                    color = MaterialTheme.colorScheme.onBackground)
                 Text(
                     text = text2,
                     modifier = Modifier
                         .clickable { showLoginForm.value = !showLoginForm.value }
                         .padding(start = 5.dp),
-                    color = MaterialTheme.colorScheme.secondary
+                    fontSize = 14.sp,
+                    color = Color(0xFFFF6123)
                 )
             }
         }
@@ -99,17 +116,23 @@ fun FitnessLogin(
 fun SubmitButton(
     textId: String,
     inputValido: Boolean,
-    onClic: ()->Unit
+    onClic: () -> Unit
 ) {
-    Button(onClick = onClic,
-    modifier = Modifier
-        .padding(3.dp)
-        .fillMaxWidth(),
+    Button(
+        onClick = onClic,
+        modifier = Modifier
+            .padding(3.dp)
+            .fillMaxWidth(),
         shape = CircleShape,
-        enabled = inputValido) {
-        Text(text = textId,
-            modifier = Modifier
-                .padding(5.dp)
+        enabled = inputValido,
+        colors = ButtonDefaults.buttonColors(
+            containerColor = Color(0xFFFF6123) // Color del botón
+        )
+    ) {
+        Text(
+            text = textId,
+            modifier = Modifier.padding(5.dp),
+            color = Color.White // Color del texto del botón
         )
     }
 }
