@@ -22,15 +22,14 @@ fun SplashScreen(navController: NavController) {
         navController.navigate("login") {
             popUpTo("splash") { inclusive = true } // Elimina el Splash Screen de la pila de navegación
         }
-//        if (FirebaseAuth.getInstance().currentUser?.email.isNullOrEmpty()) {
-//            navController.navigate("login") {
-//                popUpTo("splash") {
-//                    inclusive = true
-//                } // Elimina el Splash Screen de la pila de navegación
-//            }
-//        } else {
-//            navController.navigate("home")
-//        }
+        if (FirebaseAuth.getInstance().currentUser?.email.isNullOrEmpty()) { navController.navigate("login") {
+                popUpTo("splash") {
+                    inclusive = true
+                } // Elimina el Splash Screen de la pila de navegación
+            }
+        } else {
+            navController.navigate("home")
+        }
     }
 
     // Diseño del Splash Screen

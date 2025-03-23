@@ -74,4 +74,8 @@ class LoginScreenViewModel : ViewModel() {
                 }
         }
     }
+
+    fun singOut() {
+        auth.signOut()
+    }
 }
