@@ -12,6 +12,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.myfitnessaplication.login.FitnessLogin
 import com.example.myfitnessaplication.home.HomeScreen
+import com.example.myfitnessaplication.home.weighing.PesajesScreen
+import com.example.myfitnessaplication.home.weighing.recordWeighing.RegistroPesajeScreen
+import com.example.myfitnessaplication.home.weighing.weighingHistory.HistoricoPesajesScreen
 import com.example.myfitnessaplication.splash.SplashScreen
 import com.example.myfitnessaplication.ui.theme.MyFitnessAplicationTheme
 
@@ -50,6 +53,9 @@ fun FitnessApp() {
         composable("splash") {SplashScreen(navController)}
         composable("login") { FitnessLogin(navController) }
         composable("home") { HomeScreen(navController) } // 🔥 Ahora HomeScreen recibe navController
+        composable("weighing") {PesajesScreen(navController)}
+        composable("recordWeighing") { RegistroPesajeScreen(navController) }
+        composable("weighingHistory") { HistoricoPesajesScreen(navController) }
     }
 }
 }
