@@ -106,7 +106,7 @@ fun DietaUsuarioScreen(
             )
 
             Text(
-                text = "Requerimiento diario: ${gastoEnergetico}kcal",
+                text = "Requerimiento diario:  ${"%.2f".format(gastoEnergetico)} kcal",
                 color = CoralColor,
                 fontWeight = FontWeight.Medium
             )
