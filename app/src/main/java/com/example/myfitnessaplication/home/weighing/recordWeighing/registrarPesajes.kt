@@ -15,6 +15,7 @@ import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -44,10 +45,10 @@ fun RegistroPesajeScreen(
     var cadera by remember { mutableStateOf("") }
 
     // Estados para los resultados calculados
-    var imc by remember { mutableStateOf(0.0) }
-    var grasaCorporal by remember { mutableStateOf(0.0) }
-    var gastoEnergetico by remember { mutableStateOf(0.0) }
-    var aguaCorporal by remember { mutableStateOf(0.0) }
+    var imc by remember { mutableDoubleStateOf(0.0) }
+    var grasaCorporal by remember { mutableDoubleStateOf(0.0) }
+    var gastoEnergetico by remember { mutableDoubleStateOf(0.0) }
+    var aguaCorporal by remember { mutableDoubleStateOf(0.0) }
 
     // Estado para mostrar los resultados
     var mostrarResultados by remember { mutableStateOf(false) }
