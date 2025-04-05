@@ -64,7 +64,7 @@ fun FitnessLogin(
                     fontSize = 25.sp,
                     color = MaterialTheme.colorScheme.onBackground,
                     fontWeight = FontWeight.Bold)
-                UserForm(isCreateAccount = false) { email, password, _, _, _, _, _ ->
+                UserForm(isCreateAccount = false) { email, password, _ ,_, _, _, _, _, _ ->
                     viewModel.singInWithEmailAndPassword(email, password) {
                         navController.navigate("home")
                     }
@@ -74,7 +74,7 @@ fun FitnessLogin(
                     fontSize = 25.sp,
                     color = MaterialTheme.colorScheme.onBackground,
                     fontWeight = FontWeight.Bold)
-                UserForm(isCreateAccount = true) { email, password, fullName, gender, weight, height, goal ->
+                UserForm(isCreateAccount = true) {email, password, fullName, gender, weight, height, goal, address, phone ->
                     viewModel.createUsersWithEmailAndPassword(
                         email,
                         password,
@@ -82,7 +82,10 @@ fun FitnessLogin(
                         gender,
                         weight,
                         height,
-                        goal
+                        goal,
+                        address = address,  // Nuevo campo
+                        phone = phone,      // Nuevo campo
+                        profileImageUrl = null,  // Puedes manejarlo luego en la actualización
                     ) {
                         navController.navigate("home")
                     }
@@ -140,21 +143,23 @@ fun SubmitButton(
 @Composable
 fun UserForm(
     isCreateAccount: Boolean = false,
-    onDone: (String, String, String?, String?, Float?, Float?, String?) -> Unit = { email, pwd, fullName, gender, weight, height, goal -> }
+    onDone: (String, String, String?, String?, Float?, Float?, String?, String?, String?) -> Unit =
+        { email, pwd, fullName, gender, weight, height, goal, address, phone -> }
 ) {
     val email = rememberSaveable { mutableStateOf("") }
     val password = rememberSaveable { mutableStateOf("") }
     val passwordVisible = rememberSaveable { mutableStateOf(false) }
-
-    // Nuevos campos para el registro
     val fullName = rememberSaveable { mutableStateOf("") }
     val gender = rememberSaveable { mutableStateOf("") }
     val weight = rememberSaveable { mutableStateOf("") }
     val height = rememberSaveable { mutableStateOf("") }
     val goal = rememberSaveable { mutableStateOf("") }
+    // Nuevos estados
+    val address = rememberSaveable { mutableStateOf("") }
+    val phone = rememberSaveable { mutableStateOf("") }
 
-    // Validación de campos
-    val valido = remember(email.value, password.value, fullName.value, gender.value, weight.value, height.value, goal.value) {
+    // Validación (actualizada para incluir nuevos campos)
+    val valido = remember(email.value, password.value, fullName.value, gender.value, weight.value, height.value, goal.value, address.value, phone.value) {
         if (isCreateAccount) {
             email.value.trim().isNotEmpty() &&
                     password.value.trim().isNotEmpty() &&
@@ -162,7 +167,9 @@ fun UserForm(
                     gender.value.trim().isNotEmpty() &&
                     weight.value.trim().isNotEmpty() &&
                     height.value.trim().isNotEmpty() &&
-                    goal.value.trim().isNotEmpty()
+                    goal.value.trim().isNotEmpty() &&
+                    address.value.trim().isNotEmpty() &&  // Validación opcional
+                    phone.value.trim().isNotEmpty()       // Validación opcional
         } else {
             email.value.trim().isNotEmpty() &&
                     password.value.trim().isNotEmpty()
@@ -182,6 +189,15 @@ fun UserForm(
                 labelId = "Nombre completo",
                 keyboardType = KeyboardType.Text
             )
+            // Nuevos campos
+            InputField(
+                valueState = address,
+                labelId = "Dirección",
+                keyboardType = KeyboardType.Text)
+            InputField(
+                valueState = phone,
+                labelId = "Teléfono",
+                keyboardType = KeyboardType.Phone)
             InputField(
                 valueState = gender,
                 labelId = "Género",
@@ -216,10 +232,12 @@ fun UserForm(
                     gender.value.trim(),
                     weight.value.trim().toFloatOrNull(),
                     height.value.trim().toFloatOrNull(),
-                    goal.value.trim()
+                    goal.value.trim(),
+                    address.value.trim(),
+                    phone.value.trim()
                 )
             } else {
-                onDone(email.value.trim(), password.value.trim(), null, null, null, null, null)
+                onDone(email.value.trim(), password.value.trim(), null, null, null, null, null, null, null)
             }
             keyboardController?.hide()
         }

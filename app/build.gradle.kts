@@ -62,6 +62,7 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.navigation.runtime.android)
     implementation(libs.firebase.firestore.ktx)
+    implementation(libs.firebase.storage.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -70,6 +71,9 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation("androidx.compose.material3:material3:1.3.1")
+
+    // Coil para manejo de imágenes
+    implementation("io.coil-kt:coil-compose:2.4.0")
 
     // Hilt
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
@@ -81,4 +85,5 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:32.7.0")) // BoM de Firebase
     implementation("com.google.firebase:firebase-auth") // Autenticación de Firebase
     implementation("com.google.firebase:firebase-analytics") // Firebase Analytics (opcional)
+    implementation("com.google.firebase:firebase-firestore-ktx")
 }
