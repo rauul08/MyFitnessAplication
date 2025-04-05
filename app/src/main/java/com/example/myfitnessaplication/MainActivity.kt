@@ -19,6 +19,10 @@ import com.example.myfitnessaplication.home.weighing.recordWeighing.RegistroPesa
 import com.example.myfitnessaplication.home.weighing.weighingHistory.HistoricoPesajesScreen
 import com.example.myfitnessaplication.splash.SplashScreen
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
+import com.example.myfitnessaplication.home.exercises.EjerciciosScreen
+import com.example.myfitnessaplication.home.exercises.ExerciseDetailScreen
 import com.example.myfitnessaplication.ui.theme.MyFitnessAplicationTheme
 
 class MainActivity : ComponentActivity() {
@@ -52,20 +56,32 @@ fun FitnessApp() {
     val navController = rememberNavController()
 
     MyFitnessApplicationTheme {
-    NavHost(navController = navController, startDestination = "splash") {
-        composable("splash") {SplashScreen(navController)}
-        composable("login") { FitnessLogin(navController) }
-        composable("home") { HomeScreen(navController) } // 🔥 Ahora HomeScreen recibe navController
-        composable("weighing") {PesajesScreen(navController)}
-        composable("diets") { DietaUsuarioScreen(navController) }
-        composable("recordWeighing") { RegistroPesajeScreen(navController) }
-        composable("weighingHistory") { HistoricoPesajesScreen(navController) }
-        composable("profile") {
-            UpdateProfileScreen(
-                viewModel = viewModel(),
-                navController = navController
-            )
+        NavHost(navController = navController, startDestination = "splash") {
+            composable("splash") { SplashScreen(navController) }
+            composable("login") { FitnessLogin(navController) }
+            composable("home") { HomeScreen(navController) } // 🔥 Ahora HomeScreen recibe navController
+            composable("weighing") { PesajesScreen(navController) }
+            composable("diets") { DietaUsuarioScreen(navController) }
+            composable("recordWeighing") { RegistroPesajeScreen(navController) }
+            composable("weighingHistory") { HistoricoPesajesScreen(navController) }
+            composable("profile") {
+                UpdateProfileScreen(
+                    viewModel = viewModel(),
+                    navController = navController
+                )
+            }
+            composable("exercises") { EjerciciosScreen(navController) }
+            composable(
+                route = "exercises/{category}",
+                arguments = listOf(navArgument("category") { type = NavType.StringType })
+            ) { backStackEntry ->
+                val category = backStackEntry.arguments?.getString("category") ?: ""
+                ExerciseDetailScreen(
+                    category = category,
+                    navController = navController
+                )
+
+            }
         }
     }
-}
 }
