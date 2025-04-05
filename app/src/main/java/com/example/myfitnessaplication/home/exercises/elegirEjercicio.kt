@@ -43,13 +43,13 @@ fun EjerciciosScreen(navController: NavController) {
             text = "Ejercicios",
             fontSize = 32.sp,
             fontWeight = FontWeight.Bold,
-            color = Color(0xFF388E3C),
+            color = Color(0xFF42A5F5),
             modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
         )
         Text(
             text = "El ejercicio es la clave para una vida saludable y llena de energía.",
             fontSize = 16.sp,
-            color = Color(0xFF69A13D),
+            color = Color(0xFF42A5F5),
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(bottom = 24.dp)
         )

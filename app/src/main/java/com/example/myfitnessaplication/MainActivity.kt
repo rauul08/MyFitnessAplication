@@ -42,7 +42,6 @@ fun MyFitnessApplicationTheme(content: @Composable () -> Unit) {
         primary = Color(0xFFFF6123), // Color primario (para botones, etc.)
         background = Color(0xFFA7C9A9), // Fondo de la aplicación
         onBackground = Color(0xFFE8E8E8), // Color del texto sobre el fondo
-        // Otros colores que desees personalizar
     )
 
     MaterialTheme(
@@ -59,7 +58,7 @@ fun FitnessApp() {
         NavHost(navController = navController, startDestination = "splash") {
             composable("splash") { SplashScreen(navController) }
             composable("login") { FitnessLogin(navController) }
-            composable("home") { HomeScreen(navController) } // 🔥 Ahora HomeScreen recibe navController
+            composable("home") { HomeScreen(navController) }
             composable("weighing") { PesajesScreen(navController) }
             composable("diets") { DietaUsuarioScreen(navController) }
             composable("recordWeighing") { RegistroPesajeScreen(navController) }
