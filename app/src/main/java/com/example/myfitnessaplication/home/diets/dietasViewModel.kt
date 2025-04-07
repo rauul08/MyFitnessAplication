@@ -21,11 +21,10 @@ class DietasViewModel : ViewModel() {
 
     // Estado para errores
     private val _errorMessage = MutableStateFlow<String?>(null)
-    val errorMessage: StateFlow<String?> = _errorMessage
 
     // Añade en tu ViewModel para manejar el estado de carga
     private val _isLoading = MutableStateFlow(false)
-    val isLoading: StateFlow<Boolean> = _isLoading
+
 
     // Cargar todos los alimentos desde Firestore
     fun loadFoods() {
@@ -45,10 +44,53 @@ class DietasViewModel : ViewModel() {
         }
     }
 
-    // Filtrar alimentos por tipo (desayuno, comida, etc.)
-    fun getFoodsByType(type: String): List<Food> {
-        return _foods.value.filter { it.type == type }
+    // Función para cargar alimentos por tipo (desayuno, comida, etc.)
+    fun loadFoodsByType(type: String) {
+        viewModelScope.launch {
+            _isLoading.value = true
+            try {
+                val result = db.collection("foods")
+                    .whereEqualTo("type", type.lowercase())
+                    .get()
+                    .await()
+
+                _foods.value = result.documents.mapNotNull { doc ->
+                    doc.toObject<Food>()?.apply { id = doc.id }
+                }
+            } catch (e: Exception) {
+                _errorMessage.value = "Error al cargar alimentos por tipo: ${e.message}"
+                Log.e("DietasViewModel", "loadFoodsByType error", e)
+            } finally {
+                _isLoading.value = false
+            }
+        }
     }
+
+    fun getFoodsByTypeAndTags(mealType: String, tags: List<String>) {
+        viewModelScope.launch {
+            try {
+                Log.d("Filtro", "Buscando: type=$mealType, tags=$tags") // <-- Log de parámetros
+
+                val result = db.collection("foods")
+                    .whereEqualTo("type", mealType.lowercase())
+                    .whereArrayContainsAny("tags", tags)
+                    .get()
+                    .await()
+
+                val filteredFoods = result.documents.mapNotNull { doc ->
+                    doc.toObject<Food>()?.apply { id = doc.id }
+                }
+
+                Log.d("Filtro", "Resultados: ${filteredFoods.size} alimentos") // <-- Log de resultados
+                _foods.value = filteredFoods
+
+            } catch (e: Exception) {
+                Log.e("Filtro", "Error: ${e.message}", e) // <-- Log de errores
+                _errorMessage.value = "Error al filtrar: ${e.message}"
+            }
+        }
+    }
+
 
 //    // Guardar dieta del usuario
 //    fun saveUserDiet(userId: String, meals: List<MealPlan>) {
@@ -65,79 +107,4 @@ class DietasViewModel : ViewModel() {
 //            }
 //        }
 //    }
-
-    // Búsqueda por un tag específico
-    fun getFoodsByTags(tags: List<String>) {
-        viewModelScope.launch {
-            try {
-                // Primero filtramos por el primer tag (único ARRAY_CONTAINS permitido)
-                val result = db.collection("foods")
-                    .whereArrayContains("tags", tags.first())
-                    .get()
-                    .await()
-
-                // Luego filtramos localmente por los demás tags
-                _foods.value = result.documents
-                    .mapNotNull { doc ->
-                        doc.toObject<Food>()?.apply { id = doc.id }
-                    }
-                    .filter { food ->
-                        tags.all { tag -> food.tags.contains(tag) }
-                    }
-            } catch (e: Exception) {
-                _errorMessage.value = "Error al filtrar: ${e.message}"
-            }
-        }
-    }
-
-
-    // Búsqueda por múltiples tags (AND)
-    fun getFoodsByMultipleTags(tags: List<String>) {
-        viewModelScope.launch {
-            try {
-                var query: Query = db.collection("foods")
-                tags.forEach { tag ->
-                    query = query.whereArrayContains("tags", tag)
-                }
-
-                val result = query.get().await()
-                _foods.value = result.documents.map { document ->
-                    document.toObject<Food>()!!.apply {
-                        id = document.id
-                    }
-                }
-            } catch (e: Exception) {
-                _errorMessage.value = "Error al buscar por múltiples tags: ${e.message}"
-                Log.e("DietasViewModel", "getFoodsByMultipleTags error", e)
-            }
-        }
-    }
-
-
-    // Búsqueda por cualquier tag de una lista (OR)
-    fun getFoodsByAnyTag(tags: List<String>) {
-        viewModelScope.launch {
-            try {
-                val allResults = mutableListOf<Food>()
-                tags.forEach { tag ->
-                    val result = db.collection("foods")
-                        .whereArrayContains("tags", tag)
-                        .get()
-                        .await()
-
-                    result.documents.forEach { document ->
-                        document.toObject<Food>()?.let { food ->
-                            food.id = document.id
-                            allResults.add(food)
-                        }
-                    }
-                }
-                _foods.value = allResults.distinctBy { it.id }
-            } catch (e: Exception) {
-                _errorMessage.value = "Error al buscar por tags alternativos: ${e.message}"
-                Log.e("DietasViewModel", "getFoodsByAnyTag error", e)
-            }
-        }
-    }
 }
-

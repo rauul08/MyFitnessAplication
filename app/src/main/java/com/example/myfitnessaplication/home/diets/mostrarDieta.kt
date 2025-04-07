@@ -63,16 +63,23 @@ fun DietaUsuarioScreen(
 
     // Estado para tags seleccionados
     val selectedTags = remember { mutableStateListOf<String>() }
+    val selectedMealType = remember { mutableStateOf("Desayuno") }
+
     // Efecto para cargar alimentos cuando cambian los tags seleccionados
-    LaunchedEffect(selectedTags) {
+    LaunchedEffect(selectedTags, selectedMealType.value) {
         if (selectedTags.isNotEmpty()) {
-            dietasViewModel.getFoodsByTags(selectedTags)
+            // Nueva función en el ViewModel que combine type + tags
+            dietasViewModel.getFoodsByTypeAndTags(
+                mealType = selectedMealType.value,
+                tags = selectedTags
+            )
         } else {
-            dietasViewModel.loadFoods() // Cargar todos si no hay tags seleccionados
+            // Cargar solo por tipo si no hay tags seleccionados
+            dietasViewModel.loadFoodsByType(selectedMealType.value)
         }
     }
 
-    val selectedMealType = remember { mutableStateOf("Desayuno") }
+
 
     // Calcular macros basados en el gasto energético (ejemplo: 30% proteínas, 40% carbos, 30% grasas)
     val (proteinGoal, carbsGoal, fatsGoal) = remember(gastoEnergetico) {
@@ -153,7 +160,7 @@ fun DietaUsuarioScreen(
             // Lista de alimentos filtrados
             val filteredFoods = foods
                 .filter { it.type.equals(selectedMealType.value, ignoreCase = true) }
-                .take(3) // Mostrar 3 opciones por comida
+                 // Mostrar 3 opciones por comida
 
             if (filteredFoods.isEmpty()) {
                 Text("No hay alimentos disponibles", modifier = Modifier.padding(16.dp))
@@ -172,7 +179,7 @@ fun DietaUsuarioScreen(
                 colors = ButtonDefaults.buttonColors(containerColor = CoralColor),
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text("Generar nuevas opciones")
+                Text("Actualizar preferencias")
             }
         }
     }
@@ -218,7 +225,7 @@ fun TagFilterSection(
     selectedTags: List<String>,
     onTagSelected: (String) -> Unit
 ) {
-    val availableTags = listOf("alto-proteina","alto-carbohidratos", "alto-calorias", "alto-grasas", "bajo-grasas", "bajo-carbohidratos", "balanceado", "rapido")
+    val availableTags = listOf("alto-proteinas","alto-carbohidratos", "alto-calorias", "alto-grasas", "bajo-grasas", "bajo-carbohidratos", "balanceado", "rapido")
 
     FlowRow(
         modifier = Modifier.padding(8.dp),
@@ -268,13 +275,6 @@ fun FoodItemCard(
                 Text("G: ${food.fats}g", color = Color.Red)
             }
 
-            Button(
-                onClick = onAddToDiet,
-                modifier = Modifier.align(Alignment.End),
-                colors = ButtonDefaults.buttonColors(containerColor = CoralColor)
-            ) {
-                Text("Añadir")
-            }
         }
     }
 }
