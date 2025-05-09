@@ -1,3 +1,42 @@
 <resources>
     <string name="app_name">MyFitnessAplication</string>
+    <string name="splashText">Transforma tu salud, transforma tu vida</string>
+    <string name="loginTittle">Inicia Sesión</string>
+    <string name="createAccount">Crea una cuenta</string>
+    <string name="text1">¿No tienes cuenta?</string>
+    <string name="text_1">¿Ya tienes una cuenta?</string>
+    <string name="text2">Regístrate</string>
+    <string name="text_2">Inicia sesión</string>
+    <!--Formulario de registro!-->
+    <string name="fullname">Nombre completo</string>
+    <string name="addres">Dirección</string>
+    <string name="call">Teléfono</string>
+    <string name="sex">Género</string>
+    <string name="heavy">Peso (kg)"</string>
+    <string name="tall">Altura (cm)</string>
+    <string name="focus">Objetivo (pérdida de peso, ganar músculo, etc.)</string>
+    <string name="email">Correo electrónico</string>
+
+    <!--HomeScreen!-->
+    <string name="welcome">Bienvenido</string>
+    <string name="exercises">Ejercicios</string>
+    <string name="diets">Dietas</string>
+    <string name="weighings">Pesajes</string>
+    <string name="profile">Perfil</string>
+
+    <!--PesajesScreen!-->
+    <string name="greeting">¡Hola,</string>
+    <string name="motivation">Tu salud es lo más importante. ¡Sigue registrando tus progresos!</string>
+    <string name="record">Registrar nuevo pesaje</string>
+    <string name="history">Histórico de pesajes</string>
+    <string name="age">Edad</string>
+    <string name="gender">Hombre</string>
+    <string name="gender2">Mujer</string>
+    <string name="activity">Nivel de actividad:</string>
+    <string name="sedentary">Sedentario</string>
+    <string name="light">Ligero</string>
+    <string name="moderate">Moderado</string>
+    <string name="asset">Activo</string>
+    <string name="active">Muy activo</string>
+    <string name="waist">Cintura (cm)</string>
 </resources>

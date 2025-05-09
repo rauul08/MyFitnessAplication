@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MyFitnessAplication</string>
+    <string name="splashText">Transform your health, transform your life</string>
+    <string name="loginTittle">Login</string>
+    <string name="createAccount">Create an account</string>
+    <string name="text1">Don´t have an account?</string>
+    <string name="text_1">Already have an account?</string>
+    <string name="text2">Sing up</string>
+    <string name="text_2">Sing in</string>
+    <string name="fullname">Full name</string>
+    <string name="addres">Address</string>
+    <string name="call">Phone</string>
+    <string name="sex">Gender</string>
+    <string name="heavy">Weight (kg)"</string>
+    <string name="tall">Height (cm)</string>
+    <string name="focus">Goal (weight loss, muscle gain, etc.)</string>
+    <string name="email">Email</string>
+
+    <!--HomeScreen!-->
+    <string name="welcome">Welcome</string>
+    <string name="exercises">Exercises</string>
+    <string name="diets">Diets</string>
+    <string name="weighings">Weighings</string>
+    <string name="profile">Profile</string>
+
+    <!--PesajesScreen!-->
+    <string name="greeting">¡Hello,</string>
+    <string name="motivation">Your health is the most important thing. Keep tracking your progress!</string>
+    <string name="record">Record new weigh-in</string>
+    <string name="history">Weighing history</string>
+    <string name="age">Age</string>
+    <string name="gender">Men</string>
+    <string name="gender2">Women</string>
+    <string name="activity">Activity level:</string>
+    <string name="sedentary">Sedentary</string>
+    <string name="light">Light</string>
+    <string name="moderate">Moderate</string>
+    <string name="asset">Asset</string>
+    <string name="active">Very active</string>
+    <string name="waist">Waist (cm)</string>
+</resources>

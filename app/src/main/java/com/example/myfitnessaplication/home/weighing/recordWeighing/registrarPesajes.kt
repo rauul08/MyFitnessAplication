@@ -26,6 +26,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.myfitnessaplication.R
 import com.example.myfitnessaplication.home.weighing.Pesaje
 import com.example.myfitnessaplication.home.weighing.PesajesViewModel
 
@@ -55,7 +56,20 @@ fun RegistroPesajeScreen(
 
     // Contexto para mostrar el Toast
     val context = LocalContext.current
-
+    val sex = context.getString(R.string.sex)
+    val heavy = context.getString(R.string.heavy)
+    val tall = context.getString(R.string.tall)
+    val focus = context.getString(R.string.focus)
+    val age = context.getString(R.string.age)
+    val gender = context.getString(R.string.gender)
+    val gender2 = context.getString(R.string.gender2)
+    val activity = context.getString(R.string.activity)
+    val sedentary = context.getString(R.string.sedentary)
+    val light = context.getString(R.string.light)
+    val moderate = context.getString(R.string.moderate)
+    val asset = context.getString(R.string.asset)
+    val active = context.getString(R.string.active)
+    val waist = context.getString(R.string.waist)
     //Scroll state
     val scrollState = rememberScrollState()
 
@@ -70,7 +84,7 @@ fun RegistroPesajeScreen(
         OutlinedTextField(
             value = peso,
             onValueChange = { peso = it },
-            label = { Text("Peso (kg)") },
+            label = { Text(heavy) },
             modifier = Modifier.fillMaxWidth()
         )
 
@@ -78,7 +92,7 @@ fun RegistroPesajeScreen(
         OutlinedTextField(
             value = altura,
             onValueChange = { altura = it },
-            label = { Text("Altura (cm)") },
+            label = { Text(tall) },
             modifier = Modifier.fillMaxWidth()
         )
 
@@ -86,7 +100,7 @@ fun RegistroPesajeScreen(
         OutlinedTextField(
             value = edad,
             onValueChange = { edad = it },
-            label = { Text("Edad") },
+            label = { Text(age) },
             modifier = Modifier.fillMaxWidth()
         )
 
@@ -96,64 +110,64 @@ fun RegistroPesajeScreen(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Text("Sexo")
+            Text(sex)
             Row {
                 RadioButton(
                     modifier = Modifier.padding(start = 12.dp),
-                    selected = sexo == "Hombre",
-                    onClick = { sexo = "Hombre" }
+                    selected = sexo == gender,
+                    onClick = { sexo = gender }
                 )
-                Text("Hombre")
+                Text(gender)
             }
             Row {
                 RadioButton(
-                    selected = sexo == "Mujer",
-                    onClick = { sexo = "Mujer" }
+                    selected = sexo == gender2,
+                    onClick = { sexo = gender2 }
                 )
-                Text("Mujer")
+                Text(gender2)
             }
         }
 
         // Selección de nivel de actividad
-        Text("Nivel de actividad:", modifier = Modifier.padding(top = 8.dp))
+        Text(activity, modifier = Modifier.padding(top = 8.dp))
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 RadioButton(
-                    selected = nivelActividad == "Sedentario",
-                    onClick = { nivelActividad = "Sedentario" }
+                    selected = nivelActividad == sedentary,
+                    onClick = { nivelActividad = sedentary }
                 )
-                Text("Sedentario")
+                Text(sedentary)
             }
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 RadioButton(
-                    selected = nivelActividad == "Ligero",
-                    onClick = { nivelActividad = "Ligero" }
+                    selected = nivelActividad == light,
+                    onClick = { nivelActividad = light }
                 )
-                Text("Ligero")
+                Text(light)
             }
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 RadioButton(
-                    selected = nivelActividad == "Moderado",
-                    onClick = { nivelActividad = "Moderado" }
+                    selected = nivelActividad == moderate,
+                    onClick = { nivelActividad = moderate }
                 )
-                Text("Moderado")
+                Text(moderate)
             }
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 RadioButton(
-                    selected = nivelActividad == "Activo",
-                    onClick = { nivelActividad = "Activo" }
+                    selected = nivelActividad == asset,
+                    onClick = { nivelActividad = asset }
                 )
-                Text("Activo")
+                Text(asset)
             }
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 RadioButton(
-                    selected = nivelActividad == "Muy activo",
-                    onClick = { nivelActividad = "Muy activo" }
+                    selected = nivelActividad == active,
+                    onClick = { nivelActividad = active }
                 )
-                Text("Muy activo")
+                Text(active)
             }
         }
 
@@ -161,7 +175,7 @@ fun RegistroPesajeScreen(
         OutlinedTextField(
             value = cintura,
             onValueChange = { cintura = it },
-            label = { Text("Cintura (cm)") },
+            label = { Text(waist) },
             modifier = Modifier.fillMaxWidth()
         )
 
@@ -174,7 +188,7 @@ fun RegistroPesajeScreen(
         )
 
         // Campo para la cadera (opcional para mujeres)
-        if (sexo == "Mujer") {
+        if (sexo == gender2) {
             OutlinedTextField(
                 value = cadera,
                 onValueChange = { cadera = it },

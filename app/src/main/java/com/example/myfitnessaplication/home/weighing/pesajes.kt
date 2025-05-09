@@ -18,10 +18,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.myfitnessaplication.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -29,6 +31,12 @@ import com.google.firebase.firestore.FirebaseFirestore
 fun PesajesScreen(navController: NavController) {
     // Estado para el nombre del usuario
     var fullName by remember { mutableStateOf("") }
+    //Internacionalización
+    val context = LocalContext.current
+    val greeting = context.getString(R.string.greeting)
+    val motivation = context.getString(R.string.motivation)
+    val record = context.getString(R.string.record)
+    val history = context.getString(R.string.history)
 
     // Obtener el nombre del usuario desde Firebase
     LaunchedEffect(Unit) {
@@ -53,7 +61,7 @@ fun PesajesScreen(navController: NavController) {
     ) {
         // Nombre del usuario
         Text(
-            text = "¡Hola, $fullName!",
+            text = "$greeting $fullName!",
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(bottom = 16.dp)
@@ -61,7 +69,7 @@ fun PesajesScreen(navController: NavController) {
 
         // Texto motivacional
         Text(
-            text = "Tu salud es lo más importante. ¡Sigue registrando tus progresos!",
+            text = motivation,
             fontSize = 16.sp,
             modifier = Modifier.padding(bottom = 32.dp)
         )
@@ -79,7 +87,7 @@ fun PesajesScreen(navController: NavController) {
                 },
                 modifier = Modifier.weight(1f)
             ) {
-                Text(text = "Registrar nuevo pesaje")
+                Text(text = record)
             }
 
             Spacer(modifier = Modifier.width(16.dp))
@@ -92,7 +100,7 @@ fun PesajesScreen(navController: NavController) {
                 },
                 modifier = Modifier.weight(1f)
             ) {
-                Text(text = "Histórico de pesajes")
+                Text(text = history)
             }
         }
     }

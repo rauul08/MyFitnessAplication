@@ -32,6 +32,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -41,7 +42,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-
+import com.example.myfitnessaplication.R
+import com.google.rpc.context.AttributeContext.Resource
 
 
 @Composable
@@ -49,6 +51,14 @@ fun FitnessLogin(
     navController: NavController,
     viewModel: LoginScreenViewModel = viewModel()
 ) {
+    val context = LocalContext.current
+    val loginTittle = context.getString(R.string.loginTittle)
+    val createAccount = context.getString(R.string.createAccount)
+    val text1 = context.getString(R.string.text1)
+    val text_1 = context.getString(R.string.text_1)
+    val text2 = context.getString(R.string.text2)
+    val text_2 = context.getString(R.string.text_2)
+
     val showLoginForm = rememberSaveable { mutableStateOf(true) }
 
     Surface(
@@ -60,7 +70,7 @@ fun FitnessLogin(
             verticalArrangement = Arrangement.Center
         ) {
             if (showLoginForm.value) {
-                Text(text = "Inicia Sesión",
+                Text(text = loginTittle,
                     fontSize = 25.sp,
                     color = MaterialTheme.colorScheme.onBackground,
                     fontWeight = FontWeight.Bold)
@@ -70,7 +80,7 @@ fun FitnessLogin(
                     }
                 }
             } else {
-                Text(text = "Crea una cuenta",
+                Text(text = createAccount,
                     fontSize = 25.sp,
                     color = MaterialTheme.colorScheme.onBackground,
                     fontWeight = FontWeight.Bold)
@@ -97,8 +107,8 @@ fun FitnessLogin(
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                val text1 = if (showLoginForm.value) "¿No tienes cuenta?" else "¿Ya tienes una cuenta?"
-                val text2 = if (showLoginForm.value) "Regístrate" else "Inicia sesión"
+                val text1 = if (showLoginForm.value) text1 else text_1
+                val text2 = if (showLoginForm.value) text2 else text_2
                 Text(text = text1,
                     fontSize = 16.sp,
                     color = MaterialTheme.colorScheme.onBackground)
@@ -146,6 +156,18 @@ fun UserForm(
     onDone: (String, String, String?, String?, Float?, Float?, String?, String?, String?) -> Unit =
         { email, pwd, fullName, gender, weight, height, goal, address, phone -> }
 ) {
+    //Strings para internacionalización
+    val context = LocalContext.current
+    val fullname = context.getString(R.string.fullname)
+    val addres = context.getString(R.string.addres)
+    val call = context.getString(R.string.call)
+    val sex = context.getString(R.string.sex)
+    val heavy = context.getString(R.string.heavy)
+    val tall = context.getString(R.string.tall)
+    val focus = context.getString(R.string.focus)
+    val createAccount = context.getString(R.string.createAccount)
+    val loginTittle = context.getString(R.string.loginTittle)
+
     val email = rememberSaveable { mutableStateOf("") }
     val password = rememberSaveable { mutableStateOf("") }
     val passwordVisible = rememberSaveable { mutableStateOf(false) }
@@ -186,42 +208,42 @@ fun UserForm(
         if (isCreateAccount) {
             InputField(
                 valueState = fullName,
-                labelId = "Nombre completo",
+                labelId = fullname,
                 keyboardType = KeyboardType.Text
             )
             // Nuevos campos
             InputField(
                 valueState = address,
-                labelId = "Dirección",
+                labelId = addres,
                 keyboardType = KeyboardType.Text)
             InputField(
                 valueState = phone,
-                labelId = "Teléfono",
+                labelId = call,
                 keyboardType = KeyboardType.Phone)
             InputField(
                 valueState = gender,
-                labelId = "Género",
+                labelId = sex,
                 keyboardType = KeyboardType.Text
             )
             InputField(
                 valueState = weight,
-                labelId = "Peso (kg)",
+                labelId = heavy,
                 keyboardType = KeyboardType.Number
             )
             InputField(
                 valueState = height,
-                labelId = "Altura (cm)",
+                labelId = tall,
                 keyboardType = KeyboardType.Number
             )
             InputField(
                 valueState = goal,
-                labelId = "Objetivo (pérdida de peso, ganar músculo, etc.)",
+                labelId = focus,
                 keyboardType = KeyboardType.Text
             )
         }
 
         SubmitButton(
-            textId = if (isCreateAccount) "Crear cuenta" else "Login",
+            textId = if (isCreateAccount) createAccount else loginTittle,
             inputValido = valido
         ) {
             if (isCreateAccount) {

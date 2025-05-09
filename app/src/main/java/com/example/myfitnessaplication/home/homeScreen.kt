@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -29,6 +30,13 @@ fun HomeScreen(navController: NavController) {
     val currentUser = FirebaseAuth.getInstance().currentUser
     val userName = currentUser?.email ?: "Usuario"
 
+    val context = LocalContext.current
+    val welcome = context.getString(R.string.welcome)
+    val exercises = context.getString(R.string.exercises)
+    val diets = context.getString(R.string.diets)
+    val weighings = context.getString(R.string.weighings)
+    val profile = context.getString(R.string.profile)
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -42,7 +50,7 @@ fun HomeScreen(navController: NavController) {
         ) {
             // Texto de bienvenida
             Text(
-                text = "Bienvenido $userName",
+                text = "$welcome $userName",
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.Black,
@@ -61,7 +69,7 @@ fun HomeScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(5.dp))
 
             // Botones de navegación
-            val modules = listOf("Ejercicios", "Dietas", "Pesajes", "Perfil")
+            val modules = listOf( exercises, diets, weighings, profile)
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
                 modifier = Modifier.fillMaxWidth()
@@ -69,10 +77,10 @@ fun HomeScreen(navController: NavController) {
                 items(modules) { module ->
                     ModuleButton(module = module, onClick = {
                         when (module) {
-                            "Ejercicios" -> navController.navigate("exercises")
-                            "Dietas" -> navController.navigate("diets")
-                            "Pesajes" -> navController.navigate("weighing")
-                            "Perfil" -> navController.navigate("profile")
+                            exercises -> navController.navigate("exercises")
+                            diets -> navController.navigate("diets")
+                            weighings -> navController.navigate("weighing")
+                            profile -> navController.navigate("profile")
                         }
                     })
                 }
@@ -83,6 +91,12 @@ fun HomeScreen(navController: NavController) {
 
 @Composable
 fun ModuleButton(module: String, onClick: () -> Unit) {
+
+    val context = LocalContext.current
+    val exercises = context.getString(R.string.exercises)
+    val diets = context.getString(R.string.diets)
+    val weighings = context.getString(R.string.weighings)
+    val profile = context.getString(R.string.profile)
     Card(
         modifier = Modifier
             .padding(8.dp)
@@ -100,10 +114,10 @@ fun ModuleButton(module: String, onClick: () -> Unit) {
         ) {
             // Ícono del módulo
             val iconRes = when (module) {
-                "Ejercicios" -> R.drawable.ic_excercise
-                "Dietas" -> R.drawable.ic_diet
-                "Pesajes" -> R.drawable.ic_weighing
-                "Perfil" -> R.drawable.ic_user
+                exercises -> R.drawable.ic_excercise
+                diets -> R.drawable.ic_diet
+                weighings -> R.drawable.ic_weighing
+                profile -> R.drawable.ic_user
                 else -> R.drawable.ic_user
             }
             Image(
